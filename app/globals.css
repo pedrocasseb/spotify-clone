@@ -1,26 +1,219 @@
 @import "tailwindcss";
 
+@theme {
+    /* Spotify Green */
+    --color-spotify-green: #1db954;
+    --color-spotify-green-dim: #1aa34a;
+    --color-spotify-green-light: #1ed760;
+
+    /* Background */
+    --color-bg-base: #121212;
+    --color-bg-elevated-base: #1a1a1a;
+    --color-bg-elevated-highlight: #2a2a2a;
+    --color-bg-press: #000000;
+    --color-bg-tinted-base: #1f1f1f;
+    --color-bg-tinted-highlight: #2a2a2a;
+    --color-bg-tinted-press: #181818;
+
+    /* Text */
+    --color-text-base: #ffffff;
+    --color-text-subdued: #a7a7a7;
+    --color-text-bright-accent: #1db954;
+
+    /* Other */
+    --color-essential-subdued: #727272;
+    --color-decorative-subdued: #292929;
+
+    /* Typography */
+    --font-sans: var(--font-figtree), "Circular",
+        "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+    color-scheme: dark;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+    height: 100%;
+    background: #000;
+    color: var(--color-text-base);
+    font-family: var(--font-sans);
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+@layer base {
+    button:not(:disabled),
+    [role="button"]:not([aria-disabled="true"]),
+    [role="switch"]:not([aria-disabled="true"]),
+    [role="tab"]:not([aria-disabled="true"]),
+    [role="menuitem"]:not([aria-disabled="true"]),
+    summary,
+    label[for] {
+        cursor: pointer;
+    }
+
+    button:disabled,
+    [aria-disabled="true"] {
+        cursor: not-allowed;
+    }
+}
+
+/* Custom Scrollbar */
+*::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+*::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, .1);
+    border: 3px solid transparent;
+    background-clip: padding-box;
+    border-radius: 999px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, .3);
+    background-clip: padding-box;
+    border: 3px solid transparent;
+}
+
+/* Range Inputs */
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+    height: 4px;
+    border-radius: 999px;
+}
+
+input[type="range"]::-moz-range-track {
+    height: 4px;
+    border-radius: 999px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 12px;
+    width: 12px;
+    background: #ffffff;
+    border-radius: 50%;
+    margin-top: -4px;
+    opacity: 0;
+    transition: opacity 120ms ease;
+}
+
+input[type="range"]::-moz-range-thumb {
+    height: 12px;
+    width: 12px;
+    background: #ffffff;
+    border-radius: 50%;
+    margin-top: -4px;
+    opacity: 0;
+    transition: opacity 120ms ease;
+}
+
+input[type="range"]:hover::-webkit-slider-thumb,
+input[type="range"]:focus-visible::-webkit-slider-thumb {
+    opacity: 1;
+}
+
+input[type="range"]:hover::-moz-range-thumb,
+input[type="range"]:focus-visible::-moz-range-thumb {
+    opacity: 1;
+}
+
+/* Playing Bars Animation */
+@keyframes equalizer {
+    0% {
+        transform: scaleY(0.3);
+    }
+    50% {
+        transform: scaleY(1);
+    }
+    100% {
+        transform: scaleY(0.3);
+    }
+}
+
+.equalizer-bar {
+    width: 3px;
+    height: 14px;
+    border-color: var(--color-spotify-green);
+    border-radius: 1px;
+    transform-origin: bottom;
+    animation: equalizer 1s ease-in-out infinite;
+}
+
+.equalizer-bar:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.equalizer-bar:nth-child(2) {
+    animation-delay: 0.25s;
+}
+
+.equalizer-bar:nth-child(3) {
+    animation-delay: 0.5s;
+}
+
+/* Marquee for Mobile Players */
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+.marquee {
+    animation: marquee 12s linear infinite;
+}
+
+/* Hide Scrollbar but Keep Functionality */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Card Hover Utilities */
+.card-hover {
+    transition: background-color 200ms ease;
+}
+
+.card-hover:hover {
+    background-color: var(--color-bg-elevated-highlight);
+}
+
+/* Gradient Noise Overlay used for Hero Sections */
+.noise {
+    background-image: radial-gradient(
+    rgba(255, 255, 255, .04) 1px, transparent 1px
+    ), radial-gradient(
+    rgba(255, 255, 255, .04) 1px, transparent 1px
+    );
+    background-size: 4px 4px, 8px 8px;
+    background-position: 0 0, 2px 2px;
+}
+
+/* Selection */
+::selection {
+    background: rgba(29, 185, 84, .4);
+    color: var(--color-text-base);
 }
