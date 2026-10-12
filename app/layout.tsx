@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Figtree } from "next/font/google"
 import "./globals.css";
+import { AppShell } from "@/components/library/AppShell";
 
 const figtree = Figtree({
   variable: '--font-figtree',
@@ -33,7 +34,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={figtree.variable}
     >
-      <body className="bg-black text-white antialiased">{children}</body>
+      <body className="bg-black text-white antialiased">
+        <AppShell>
+          {children}
+        </AppShell>
+      </body>
     </html>
   );
 }

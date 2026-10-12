@@ -86,7 +86,7 @@ export function Sidebar({
           })}
         </ul>
       </nav>
-      <div className="flex min-h-0 flex-1 flex-col ">
+      <div className="flex min-h-0 flex-1 bg-bg-elevated-base rounded-lg flex-col ">
         <header className={cn('flex items-center justify-between px-4 pb-2 pt-2', collapsed && 'px-3')}>
           <button type="button"
             onClick={() => canToggleCollapse && setCollapsed(!collapsed)}
